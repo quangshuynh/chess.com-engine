@@ -1,11 +1,11 @@
 import requests
-import chess
+import chess_script
 import chess.engine
 import sys
 
-# Your Chess.com username and the path to Stockfish
+# Chess.com username and the path to Stockfish
 USERNAME = "hymical"
-STOCKFISH_PATH = "C:\Program Files\stockfish\stockfish-windows-x86-64-avx2.exe"  
+STOCKFISH_PATH = "C:/Program Files/stockfish/stockfish-windows-x86-64-avx2.exe"  
 
 def get_live_game(username):
     url = f"https://api.chess.com/pub/player/{username}/games"
@@ -23,7 +23,7 @@ def get_live_game(username):
     return None
 
 def get_fen_from_pgn(pgn):
-    board = chess.Board()
+    board = chess_script.Board()
     moves = pgn.split("\n\n")[1].split() 
     for move in moves:
         try:
@@ -33,8 +33,8 @@ def get_fen_from_pgn(pgn):
     return board
 
 def suggest_best_move(board, stockfish_path):
-    with chess.engine.SimpleEngine.popen_uci(stockfish_path) as engine:
-        result = engine.play(board, chess.engine.Limit(time=1.0))  # 1-second analysis
+    with chess_script.engine.SimpleEngine.popen_uci(stockfish_path) as engine:
+        result = engine.play(board, chess_script.engine.Limit(time=1.0))  # 1-second analysis
         return result.move
 
 def main():
